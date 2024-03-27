@@ -8,10 +8,13 @@ public class AlbumsController : ControllerBase
 
   private readonly Auth0Provider _auth0Provider;
 
-  public AlbumsController(AlbumsService albumsService, Auth0Provider auth0Provider)
+  private readonly PicturesService _picturesService;
+
+  public AlbumsController(AlbumsService albumsService, Auth0Provider auth0Provider, PicturesService picturesService)
   {
     _albumsService = albumsService;
     _auth0Provider = auth0Provider;
+    _picturesService = picturesService;
   }
 
 
@@ -69,6 +72,20 @@ public class AlbumsController : ControllerBase
       Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
       Album album = _albumsService.ArchiveAlbum(albumId, userInfo.Id);
       return Ok(album);
+    }
+    catch (Exception exception)
+    {
+      return BadRequest(exception.Message);
+    }
+  }
+
+  [HttpGet("{albumId}/pictures")]
+  public ActionResult<List<Picture>> GetPicturesByAlbumId(int albumId)
+  {
+    try
+    {
+      List<Picture> pictures = _picturesService.GetPicturesByAlbumId(albumId);
+      return Ok(pictures);
     }
     catch (Exception exception)
     {

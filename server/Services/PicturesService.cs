@@ -1,4 +1,6 @@
 
+
+
 namespace post_it_csharp.Services;
 
 public class PicturesService
@@ -15,5 +17,16 @@ public class PicturesService
     Picture picture = _repository.CreatePicture(pictureData);
 
     return picture;
+  }
+
+  internal string DestroyPicture(int pictureId, string id)
+  {
+    throw new NotImplementedException();
+  }
+
+  internal List<Picture> GetPicturesByAlbumId(int albumId)
+  {
+    List<Picture> pictures = _repository.GetPicturesByAlbumId(albumId);
+    return pictures;
   }
 }
