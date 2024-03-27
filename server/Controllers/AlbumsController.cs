@@ -4,23 +4,29 @@ public class AlbumsController : ControllerBase
 {
   private readonly AlbumsService _albumsService;
 
-  public AlbumsController(AlbumsService albumsService)
+  private readonly Auth0Provider _auth0Provider;
+
+  public AlbumsController(AlbumsService albumsService, Auth0Provider auth0Provider)
   {
     _albumsService = albumsService;
+    _auth0Provider = auth0Provider;
   }
 
 
-  // [HttpPost]
-  // [Authorize]
-  // public ActionResult<Album> CreateAlbum()
-  // {
-  //   try
-  //   {
-
-  //   }
-  //   catch (Exception exception)
-  //   {
-  //     return BadRequest(exception.Message);
-  //   }
-  // }
+  [HttpPost]
+  [Authorize]
+  public async Task<ActionResult<Album>> CreateAlbum([FromBody] Album albumData)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      albumData.CreatorId = userInfo.Id;
+      Album album = _albumsService.CreateAlbum(albumData);
+      return Ok(album);
+    }
+    catch (Exception exception)
+    {
+      return BadRequest(exception.Message);
+    }
+  }
 }
