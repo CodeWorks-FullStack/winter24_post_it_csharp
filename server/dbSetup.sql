@@ -14,11 +14,21 @@ CREATE TABLE albums(
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
   title VARCHAR(60) NOT NULL,
-  category ENUM("misc", "cats", "dogs", "games", "gachamon", "capybaras", "hamburgers") DEFAULT "capybaras",
+  category ENUM("misc", "cats", "dogs", "games", "gachamon", "capybaras", "hamburgers", "animals") DEFAULT "capybaras",
   archived BOOLEAN NOT NULL DEFAULT false,
   coverImg VARCHAR(1000) NOT NULL,
   creatorId VARCHAR(255) NOT NULL,
   FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 )
 
+
+
 DROP TABLE albums;
+
+
+SELECT 
+album.*, 
+account.* 
+FROM albums album 
+JOIN accounts account 
+ON album.creatorId = account.id;
