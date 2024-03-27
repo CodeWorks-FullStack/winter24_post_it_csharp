@@ -1,6 +1,7 @@
 
 
 
+
 namespace post_it_csharp.Services;
 
 public class AlbumsService
@@ -16,6 +17,12 @@ public class AlbumsService
   internal Album CreateAlbum(Album albumData)
   {
     Album album = _repository.CreateAlbum(albumData);
+    return album;
+  }
+
+  internal Album GetAlbumById(int albumId)
+  {
+    Album album = _repository.GetAlbumById(albumId);
     return album;
   }
 
