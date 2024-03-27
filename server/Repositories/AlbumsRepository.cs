@@ -1,4 +1,5 @@
 
+
 namespace post_it_csharp.Repositories;
 
 public class AlbumsRepository
@@ -30,5 +31,23 @@ public class AlbumsRepository
       return album;
     }, albumData).FirstOrDefault();
     return album;
+  }
+
+  internal List<Album> GetAlbums()
+  {
+    string sql = @"
+    SELECT 
+    album.*,
+    account.* 
+    FROM albums album
+    JOIN accounts account ON album.creatorId = account.id
+    ;";
+
+    List<Album> albums = _db.Query<Album, Account, Album>(sql, (album, account) =>
+    {
+      album.Creator = account;
+      return album;
+    }).ToList();
+    return albums;
   }
 }
