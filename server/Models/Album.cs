@@ -1,10 +1,10 @@
 namespace post_it_csharp.Models;
 
-public class Album
+public class Album : RepoItem
 {
-  public int Id { get; set; }
-  public DateTime CreatedAt { get; set; }
-  public DateTime UpdatedAt { get; set; }
+  // public int Id { get; set; }
+  // public DateTime CreatedAt { get; set; }
+  // public DateTime UpdatedAt { get; set; }
   public string Title { get; set; }
   public string Category { get; set; }
   public bool Archived { get; set; }
