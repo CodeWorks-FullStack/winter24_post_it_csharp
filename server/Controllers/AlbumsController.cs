@@ -1,3 +1,5 @@
+namespace post_it_csharp.Controllers;
+
 [ApiController]
 [Route("api/[controller]")]
 public class AlbumsController : ControllerBase
