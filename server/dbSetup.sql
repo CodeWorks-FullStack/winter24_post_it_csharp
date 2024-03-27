@@ -6,3 +6,14 @@ CREATE TABLE IF NOT EXISTS accounts(
   email varchar(255) COMMENT 'User Email',
   picture varchar(255) COMMENT 'User Picture'
 ) default charset utf8mb4 COMMENT '';
+
+
+CREATE TABLE albums(
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  title VARCHAR(60) NOT NULL,
+  category ENUM("misc", "cats", "dogs", "games", "gachamon", "capybaras", "hamburgers") DEFAULT "capybaras",
+  archived BOOLEAN NOT NULL DEFAULT false,
+  coverImg VARCHAR(1000) NOT NULL,
+  creatorId VARCHAR(255) NOT NULL,
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+)
