@@ -80,7 +80,7 @@ public class AlbumsController : ControllerBase
     }
   }
 
-  [HttpGet("{albumId}/pictures")] // 'api/albums/4/pictures'
+  [HttpGet("{albumId}/pictures")] // 'https://localhost:7045/api/albums/4/pictures'
   public ActionResult<List<Picture>> GetPicturesByAlbumId(int albumId)
   {
     try
