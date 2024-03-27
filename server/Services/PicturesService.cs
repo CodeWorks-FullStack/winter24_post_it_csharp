@@ -19,7 +19,7 @@ public class PicturesService
     return picture;
   }
 
-  internal string DestroyPicture(int pictureId, string id)
+  internal string DestroyPicture(int pictureId, string userId)
   {
     throw new NotImplementedException();
   }
