@@ -63,6 +63,7 @@ public class AlbumsController : ControllerBase
     }
   }
 
+  // NOTE example of how to perform a soft delete (flipping bool). Gregslist might be a better example for a hard delete!
   [HttpDelete("{albumId}")]
   [Authorize]
   public async Task<ActionResult<Album>> ArchiveAlbum(int albumId)
@@ -79,7 +80,7 @@ public class AlbumsController : ControllerBase
     }
   }
 
-  [HttpGet("{albumId}/pictures")]
+  [HttpGet("{albumId}/pictures")] // 'api/albums/4/pictures'
   public ActionResult<List<Picture>> GetPicturesByAlbumId(int albumId)
   {
     try

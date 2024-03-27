@@ -1,5 +1,3 @@
-
-
 namespace post_it_csharp.Repositories;
 public class PicturesRepository
 {
@@ -29,6 +27,8 @@ public class PicturesRepository
     //   picture.Creator = account;
     //   return picture;
     // }, pictureData).FirstOrDefault();
+
+    // NOTE mapping function abstracted out to _populateCreator method. Above code works fine
     Picture picture = _db.Query<Picture, Account, Picture>(sql, _populateCreator, pictureData).FirstOrDefault();
 
     return picture;
@@ -50,6 +50,7 @@ public class PicturesRepository
     return pictures;
   }
 
+  // NOTE private method is only accessible within the context of this class, no other module can call _picturesRepository._populateCreator
   private Picture _populateCreator(Picture picture, Account account)
   {
     picture.Creator = account;

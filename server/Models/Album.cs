@@ -1,7 +1,8 @@
 namespace post_it_csharp.Models;
 
-public class Album : RepoItem
+public class Album : RepoItem // Album class inherits all members from RepoItem class
 {
+  // NOTE commented out properties are being brought in through inheritance
   // public int Id { get; set; }
   // public DateTime CreatedAt { get; set; }
   // public DateTime UpdatedAt { get; set; }

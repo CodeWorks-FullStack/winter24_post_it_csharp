@@ -1,8 +1,3 @@
-
-
-
-
-
 namespace post_it_csharp.Services;
 
 public class AlbumsService
@@ -25,6 +20,7 @@ public class AlbumsService
       throw new Exception("NOT YOUR ALBUM");
     }
 
+    // flips bool
     albumToArchive.Archived = !albumToArchive.Archived;
 
     Album updatedAlbum = _repository.ArchiveAlbum(albumToArchive);

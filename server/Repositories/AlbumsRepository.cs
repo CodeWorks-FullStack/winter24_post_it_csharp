@@ -47,10 +47,14 @@ public class AlbumsRepository
     JOIN accounts account ON album.creatorId = account.id
     WHERE album.id = LAST_INSERT_ID();";
 
-    Album album = _db.Query<Album, Account, Album>(sql, (album, account) =>
+    // NOTE                   ⬇️     ⬇️ The two data types coming in on the same row from our join, needs to match table select order from sql
+    //                                        ⬇️ The return type of the mapping function    
+    Album album = _db.Query<Album, Account, Album>(sql,
+    // NOTE second argument passed to dapper is our mapping function. dapper will automatically split up your data coming in on each row by the id column. You will need a parameter set up for each data type joined on your rows
+    (album, account) =>
     {
-      album.Creator = account;
-      return album;
+      album.Creator = account; // adds account information to album as a nested object. "populate"
+      return album; // this is what we return out of mapping function. Data type must match 3rd type passed to query
     }, albumData).FirstOrDefault();
     return album;
   }
