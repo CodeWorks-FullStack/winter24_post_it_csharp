@@ -1,7 +1,3 @@
-
-
-
-
 namespace post_it_csharp.Repositories;
 
 public class AlbumsRepository
