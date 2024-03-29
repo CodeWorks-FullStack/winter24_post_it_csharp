@@ -1,3 +1,5 @@
+
+
 namespace post_it_csharp.Repositories;
 public class PicturesRepository
 {
@@ -31,6 +33,31 @@ public class PicturesRepository
     // NOTE mapping function abstracted out to _populateCreator method. Above code works fine
     Picture picture = _db.Query<Picture, Account, Picture>(sql, _populateCreator, pictureData).FirstOrDefault();
 
+    return picture;
+  }
+
+  internal void DestroyPicture(int pictureId)
+  {
+    string sql = "DELETE FROM pictures WHERE id = @pictureId LIMIT 1;";
+
+    int rowsAffected = _db.Execute(sql, new { pictureId });
+
+    if (rowsAffected == 0)
+    {
+      throw new Exception("Nothing was deleted. You should probably check your sql query");
+    }
+
+    if (rowsAffected > 1)
+    {
+      throw new Exception("Tell Jake his vacation is over, we have a critical error in our database.");
+    }
+  }
+
+  internal Picture GetPictureById(int id)
+  {
+    string sql = "SELECT * FROM pictures WHERE id = @id;";
+
+    Picture picture = _db.Query<Picture>(sql, new { id }).FirstOrDefault();
     return picture;
   }
 

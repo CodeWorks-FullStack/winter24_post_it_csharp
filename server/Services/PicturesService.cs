@@ -19,9 +19,30 @@ public class PicturesService
     return picture;
   }
 
+  internal Picture GetPictureById(int id)
+  {
+    Picture picture = _repository.GetPictureById(id);
+
+    if (picture == null)
+    {
+      throw new Exception($"Invalid id: {id}");
+    }
+
+    return picture;
+  }
+
   internal string DestroyPicture(int pictureId, string userId)
   {
-    throw new NotImplementedException();
+    Picture pictureToDestroy = GetPictureById(pictureId);
+
+    if (pictureToDestroy.CreatorId != userId)
+    {
+      throw new Exception("NOT YOUR PICTURE, BUDDY 🙅‍♀️");
+    }
+
+    _repository.DestroyPicture(pictureId);
+
+    return "Picture was deleted! 🖼️🚮";
   }
 
   internal List<Picture> GetPicturesByAlbumId(int albumId)
