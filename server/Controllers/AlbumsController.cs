@@ -10,11 +10,14 @@ public class AlbumsController : ControllerBase
 
   private readonly PicturesService _picturesService;
 
-  public AlbumsController(AlbumsService albumsService, Auth0Provider auth0Provider, PicturesService picturesService)
+  private readonly CollaboratorsService _collaboratorsService;
+
+  public AlbumsController(AlbumsService albumsService, Auth0Provider auth0Provider, PicturesService picturesService, CollaboratorsService collaboratorsService)
   {
     _albumsService = albumsService;
     _auth0Provider = auth0Provider;
     _picturesService = picturesService;
+    _collaboratorsService = collaboratorsService;
   }
 
 
@@ -87,6 +90,20 @@ public class AlbumsController : ControllerBase
     {
       List<Picture> pictures = _picturesService.GetPicturesByAlbumId(albumId);
       return Ok(pictures);
+    }
+    catch (Exception exception)
+    {
+      return BadRequest(exception.Message);
+    }
+  }
+
+  [HttpGet("{albumId}/collaborators")]
+  public ActionResult<List<CollaborationProfile>> GetAlbumCollaborators(int albumId)
+  {
+    try
+    {
+      List<CollaborationProfile> collaborationProfiles = _collaboratorsService.GetAlbumCollaborators(albumId);
+      return Ok(collaborationProfiles);
     }
     catch (Exception exception)
     {

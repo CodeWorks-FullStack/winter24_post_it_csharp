@@ -59,3 +59,5 @@ account.*
 FROM albums album 
 JOIN accounts account 
 ON album.creatorId = account.id;
+
+SELECT * FROM collaborators JOIN accounts ON accounts.id = collaborators.`accountId` WHERE collaborators.albumId = 4;

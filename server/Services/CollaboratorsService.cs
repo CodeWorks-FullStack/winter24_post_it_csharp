@@ -1,4 +1,5 @@
 
+
 namespace post_it_csharp.Services;
 
 public class CollaboratorsService
@@ -14,5 +15,11 @@ public class CollaboratorsService
   {
     Collaborator collaborator = _repository.CreateCollaborator(collaboratorData);
     return collaborator;
+  }
+
+  internal List<CollaborationProfile> GetAlbumCollaborators(int albumId)
+  {
+    List<CollaborationProfile> collaborationProfiles = _repository.GetAlbumCollaborators(albumId);
+    return collaborationProfiles;
   }
 }

@@ -1,4 +1,5 @@
 
+
 namespace post_it_csharp.Repositories;
 public class CollaboratorsRepository
 {
@@ -20,5 +21,26 @@ public class CollaboratorsRepository
 
     Collaborator collaborator = _db.Query<Collaborator>(sql, collaboratorData).FirstOrDefault();
     return collaborator;
+  }
+
+  internal List<CollaborationProfile> GetAlbumCollaborators(int albumId)
+  {
+    string sql = @"
+    SELECT 
+    collab.*,
+    account.*
+    FROM collaborators collab
+    JOIN accounts account ON account.id = collab.accountId
+    WHERE albumId = @albumId;
+    ";
+
+    List<CollaborationProfile> collaborationProfiles = _db
+    .Query<Collaborator, CollaborationProfile, CollaborationProfile>(sql, (collaborator, profile) =>
+    {
+      profile.AlbumId = collaborator.AlbumId;
+      profile.CollaborationId = collaborator.Id;
+      return profile;
+    }, new { albumId }).ToList();
+    return collaborationProfiles;
   }
 }
