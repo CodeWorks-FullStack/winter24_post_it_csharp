@@ -15,7 +15,7 @@ public class CollaboratorsController : ControllerBase
 
   [HttpPost]
   [Authorize]
-  public async Task<ActionResult<Collaborator>> CreateCollaborator([FromBody] Collaborator collaboratorData)
+  public async Task<ActionResult<CollaborationProfile>> CreateCollaborator([FromBody] Collaborator collaboratorData)
   {
     try
     {
@@ -23,9 +23,24 @@ public class CollaboratorsController : ControllerBase
 
       collaboratorData.AccountId = userInfo.Id;
 
-      // FIXME return something better (that would be a good reference for AllSpice)
-      Collaborator collaborator = _collaboratorsService.CreateCollaborator(collaboratorData);
-      return Ok(collaborator);
+      CollaborationProfile collaborationProfile = _collaboratorsService.CreateCollaborator(collaboratorData);
+      return Ok(collaborationProfile);
+    }
+    catch (Exception exception)
+    {
+      return BadRequest(exception.Message);
+    }
+  }
+
+  [HttpDelete("{collaboratorId}")]
+  [Authorize]
+  public async Task<ActionResult<string>> DestroyCollaborator(int collaboratorId)
+  {
+    try
+    {
+      Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+      _collaboratorsService.DestroyCollaborator(collaboratorId, userInfo.Id);
+      return Ok("Collaborator has been deleted!");
     }
     catch (Exception exception)
     {

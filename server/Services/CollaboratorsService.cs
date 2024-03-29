@@ -1,6 +1,7 @@
 
 
 
+
 namespace post_it_csharp.Services;
 
 public class CollaboratorsService
@@ -12,9 +13,33 @@ public class CollaboratorsService
     _repository = repository;
   }
 
-  internal Collaborator CreateCollaborator(Collaborator collaboratorData)
+  internal CollaborationProfile CreateCollaborator(Collaborator collaboratorData)
   {
-    Collaborator collaborator = _repository.CreateCollaborator(collaboratorData);
+    CollaborationProfile collaborationProfile = _repository.CreateCollaborator(collaboratorData);
+    return collaborationProfile;
+  }
+
+  internal void DestroyCollaborator(int collaboratorId, string userId)
+  {
+    Collaborator collaboratorToDestroy = GetCollaboratorById(collaboratorId);
+
+    if (collaboratorToDestroy.AccountId != userId)
+    {
+      throw new Exception("NOT YOUR COLLABORATOR 🙅‍♀️🖼️🤝");
+    }
+
+    _repository.DestroyCollaborator(collaboratorId);
+  }
+
+  internal Collaborator GetCollaboratorById(int collaboratorId)
+  {
+    Collaborator collaborator = _repository.GetCollaboratorById(collaboratorId);
+
+    if (collaborator == null)
+    {
+      throw new Exception($"Invalid id: {collaboratorId}");
+    }
+
     return collaborator;
   }
 
