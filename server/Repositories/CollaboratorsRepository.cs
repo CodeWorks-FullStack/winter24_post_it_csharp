@@ -49,16 +49,19 @@ public class CollaboratorsRepository
     string sql = @"
     SELECT
     collab.*,
-    album.*
+    album.*,
+    account.*
     FROM collaborators collab
     JOIN albums album ON album.id = collab.albumId
+    JOIN accounts account ON account.id = album.creatorId
     WHERE collab.accountId = @userId;";
 
-    List<CollaborationAlbum> collaborationAlbums = _db
-    .Query<Collaborator, CollaborationAlbum, CollaborationAlbum>(sql, (collaborator, album) =>
+
+    List<CollaborationAlbum> collaborationAlbums = _db.Query<Collaborator, CollaborationAlbum, Account, CollaborationAlbum>(sql, (collaborator, album, account) =>
     {
       album.CollaborationId = collaborator.Id;
       album.AccountId = collaborator.AccountId;
+      album.Creator = account;
       return album;
     }, new { userId }).ToList();
 
