@@ -1,6 +1,8 @@
 namespace post_it_csharp.Controllers;
 
-public class CollaboratorsController
+[ApiController]
+[Route("api/[controller]")]
+public class CollaboratorsController : ControllerBase
 {
   private readonly CollaboratorsService _collaboratorsService;
   private readonly Auth0Provider _auth0Provider;
